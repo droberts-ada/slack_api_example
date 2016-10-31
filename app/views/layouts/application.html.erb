@@ -13,6 +13,10 @@
 
   <body>
 
+    <% if flash[:notice] %>
+      <h3 class="flash-notice"><%= flash[:notice] %></h3>
+    <% end %>
+
     <%= yield %>
 
   </body>
