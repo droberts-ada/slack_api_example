@@ -17,7 +17,7 @@
     <ul>
   <% end %>
   <% counter += 1 %>
-  <li>   <%= link_to data.name, new_message_path(data.name, data.id)    %> </li>
+  <li>   <%= link_to data.name, homepages_new_path(data.name) %> </li>
 
   <% if counter % max == 0 %>
     </ul>
