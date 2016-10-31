@@ -9,7 +9,7 @@ class HomepagesController < ApplicationController
   end
 
   def create
-    SlackApiWrapper.sendmsg(params[:channel], params[:message])
+    Channel.by_name(params[:channel]).sendmsg(params[:message])
   end
 
   def new
