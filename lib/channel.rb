@@ -3,6 +3,8 @@ class Channel
   attr_reader :name, :id, :purpose, :is_archived, :members
 
   def initialize(name, id, options = {} )
+    @name = name
+    @id = id
     # Commented out because there's no way I'd be able to remember
     # all this live.
     # @purpose = options[:purpose]
@@ -25,6 +27,7 @@ class Channel
 
   # Return a memoized set of all channels
   def self.all
+    SlackApiWrapper.listchannels
   end
 
   # Foreget all memoized values
@@ -34,6 +37,10 @@ class Channel
   # Return either the first (probably only) channel matching
   # the given name, or nil.
   def self.by_name(name)
+    matches = all.select do |c|
+      c.name == name
+    end
+    return matches.first
   end
 
   # Return either the first (probably only) channel matching
