@@ -1,6 +1,4 @@
 
-require 'httparty'
-
 class SlackApiWrapper
   BASE_URL = "https://slack.com/api/"
   TOKEN  = ENV["TOKEN"]
