@@ -13,6 +13,9 @@ VCR.configure do |config|
     :record => :new_episodes,    # record new data when we don't have it yet
     :match_requests_on => [:method, :uri, :body] # The http method, URI and body of a request all need to
   }
+  config.filter_sensitive_data("<SLACK_TOKEN>") do
+    ENV['SLACK_TOKEN']
+  end
 end
 
 class ActiveSupport::TestCase
