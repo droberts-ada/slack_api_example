@@ -17,6 +17,43 @@ class ChannelTest < ActiveSupport::TestCase
     assert_equal c.id, id
   end
 
+  test "Channel cannot be created without a name" do
+    assert_raises ArgumentError, "nil name" do
+      Channel.new(nil, "test id")
+    end
+
+    assert_raises ArgumentError, "empty name" do
+      Channel.new("", "test id")
+    end
+  end
+
+  test "Channel cannot be created without an id" do
+    assert_raises ArgumentError, "nil ID" do
+      Channel.new("test name", nil)
+    end
+
+    assert_raises ArgumentError, "empty ID" do
+      Channel.new("test name", "")
+    end
+  end
+
+  test "Optional params are stored" do
+    name = "test name"
+    id = "test id"
+    options = {
+      purpose: "test purpose",
+      is_archived: false,
+      is_general: false,
+      members: []
+    }
+    c = Channel.new(name, id, options)
+    assert_equal c.name, name
+    assert_equal c.id, id
+    assert_equal c.purpose, options[:purpose]
+    assert_equal c.is_archived, options[:is_archived]
+    assert_equal c.is_general, options[:is_general]
+    assert_equal c.members, options[:members]
+  end
 
   #
   # SELF METHODS

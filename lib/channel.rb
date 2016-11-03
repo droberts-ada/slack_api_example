@@ -1,16 +1,19 @@
 # lib/channel.rb
 class Channel
-  attr_reader :name, :id, :purpose, :is_archived, :members
+  attr_reader :name, :id, :purpose, :is_archived, :is_general, :members
 
   def initialize(name, id, options = {} )
+    if name.nil? || name.empty? || id.nil? || id.empty?
+      raise ArgumentError
+    end
     @name = name
     @id = id
     # Commented out because there's no way I'd be able to remember
     # all this live.
-    # @purpose = options[:purpose]
-    # @is_archived = options[:is_archived]
-    # @is_general = options[:is_archived]
-    # @members = options[:members]
+    @purpose = options[:purpose]
+    @is_archived = options[:is_archived]
+    @is_general = options[:is_archived]
+    @members = options[:members]
   end
 
   # Send a message to this slack channel
