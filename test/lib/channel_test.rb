@@ -70,7 +70,6 @@ class ChannelTest < ActiveSupport::TestCase
     end
   end
 
-
   test "Channel.by_name should return nil if no match" do
     VCR.use_cassette("channels") do
       channel = Channel.by_name("this-channel-does-not-exist")
@@ -87,12 +86,16 @@ class ChannelTest < ActiveSupport::TestCase
     end
   end
 
-  # TODO: uncomment me if Slack ever starts giving back
-  # duplicate channels
-  # test "Channel.by_name should return the first match" do
-  #   name = "test name"
-  #   channel = Channel.by_name(name)
-  #   assert_kind_of Channel, channel
-  #   assert_equal channel.name, name
-  # end
+  test "Channel.by_name should return the first match" do
+    # To get the duplicate_channel cassette, I copied
+    # an existing cassette and hand-edited the JSON to
+    # look like what I wanted, in this case having two
+    # channels with the same name.
+    VCR.use_cassette("duplicate_channel") do
+      name = "duplicate-channel-name"
+      channel = Channel.by_name(name)
+      assert_kind_of Channel, channel
+      assert_equal channel.name, name
+    end
+  end
 end
