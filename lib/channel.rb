@@ -24,30 +24,35 @@ class Channel
   # Create a class-level instance variable.
   # Musch more likely to work as expected than a class variable
   # See http://www.railstips.org/blog/archives/2006/11/18/class-and-instance-variables-in-ruby/
-  class << self
-    attr_reader :channels
-  end
+  @channels = nil
 
-  # Return a memoized set of all channels
+  # Return a memoized hash {id => channel}
   def self.all
-    SlackApiWrapper.listchannels
+    # Return memoized data if available
+    return @channels unless @channels.nil?
+
+    # Make the API call and remember the data
+    @channels = {}
+    SlackApiWrapper.listchannels.each do |channel|
+      @channels[channel.id] = channel
+    end
+    return @channels
   end
 
   # Foreget all memoized values
   def self.reset
+    @channels = nil
   end
 
   # Return either the first (probably only) channel matching
   # the given name, or nil.
   def self.by_name(name)
-    matches = all.select do |c|
-      c.name == name
-    end
-    return matches.first
+    self.all.values.select{ |c| c.name == name }.first
   end
 
   # Return either the first (probably only) channel matching
   # the given ID, or nil.
   def self.by_id(id)
+    # self.all[id]
   end
 end

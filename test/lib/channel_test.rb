@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class ChannelTest < ActiveSupport::TestCase
+  def setup
+    Channel.reset
+  end
+
   test "whether the tests are running" do
     assert true
   end
@@ -62,10 +66,11 @@ class ChannelTest < ActiveSupport::TestCase
   test "Channel.all should return an array of channels" do
     VCR.use_cassette("channels") do
       channels = Channel.all
-      assert_kind_of Array, channels
+      assert_kind_of Hash, channels
       assert_not channels.empty?
-      channels.each do |channel|
+      channels.each do |id, channel|
         assert_kind_of Channel, channel
+        assert_equal id, channel.id
       end
     end
   end
@@ -96,6 +101,59 @@ class ChannelTest < ActiveSupport::TestCase
       channel = Channel.by_name(name)
       assert_kind_of Channel, channel
       assert_equal channel.name, name
+    end
+  end
+
+
+  #
+  # MEMOIZATION
+  #
+
+  test "Channel.all doesn't pick up changes without reset" do
+    # Load from one set of test data
+    VCR.use_cassette("alpha-test-channel") do
+      channels = Channel.all
+
+      # Confirm the test data is as expected
+      assert_equal 1, channels.length
+      assert_kind_of Channel, channels.values.first
+      assert_equal "alpha-test-channel", channels.values.first.name
+    end
+
+    # Change the "server" (cassette) to use a different
+    # set of test data
+    VCR.use_cassette("bravo-test-channel") do
+      channels = Channel.all
+
+      # Confirm the loaded data hasn't changed, and still matches
+      # the first cassette
+      assert_equal 1, channels.length
+      assert_kind_of Channel, channels.values.first
+      assert_equal "alpha-test-channel", channels.values.first.name
+    end
+  end
+
+  test "Channel.all does pick up changes after reset" do
+    # Load from one set of test data
+    VCR.use_cassette("alpha-test-channel") do
+      channels = Channel.all
+      # Confirm the test data is as expected
+      assert_equal 1, channels.length
+      assert_kind_of Channel, channels.values.first
+      assert_equal "alpha-test-channel", channels.values.first.name
+    end
+
+    # Change the "server" (cassette) to use a different
+    # set of test data
+    VCR.use_cassette("bravo-test-channel") do
+      # Call reset to force reload
+      Channel.reset
+      channels = Channel.all
+
+      # Confirm the loaded data matches the new cassette
+      assert_equal 1, channels.length
+      assert_kind_of Channel, channels.values.first
+      assert_equal "bravo-test-channel", channels.values.first.name
     end
   end
 end

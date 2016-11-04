@@ -61,32 +61,8 @@ http_interactions:
             "ok": true,
             "channels": [
                 {
-                    "id": "C14UN1PV2",
-                    "name": "duplicate-channel-name",
-                    "is_channel": true,
-                    "created": 1461948067,
-                    "creator": "U14K14WFQ",
-                    "is_archived": false,
-                    "is_general": false,
-                    "is_member": true,
-                    "members": [
-                        "U14K14WFQ"
-                    ],
-                    "topic": {
-                        "value": "",
-                        "creator": "",
-                        "last_set": 0
-                    },
-                    "purpose": {
-                        "value": "For ada-wide announcements.",
-                        "creator": "U14K14WFQ",
-                        "last_set": 1461948067
-                    },
-                    "num_members": 57
-                },
-                {
                     "id": "C14UN1PV3",
-                    "name": "duplicate-channel-name",
+                    "name": "bravo-test-channel",
                     "is_channel": true,
                     "created": 1461948067,
                     "creator": "U14K14WFQ",
@@ -102,11 +78,11 @@ http_interactions:
                         "last_set": 0
                     },
                     "purpose": {
-                        "value": "For ada-wide announcements.",
+                        "value": "Another fake channel for memoization tests.",
                         "creator": "U14K14WFQ",
                         "last_set": 1461948067
                     },
-                    "num_members": 57
+                    "num_members": 1
                 }
             ]
         }
