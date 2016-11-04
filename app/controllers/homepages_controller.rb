@@ -1,24 +1,20 @@
-#require "slack_api_wrapper"
-#require "channel"
-
-
-
 class HomepagesController < ApplicationController
   def index
-    @data = Channel.all
+    @data = Channel.all.values.sort_by{ |c| c.name }
   end
 
   def create
-    result = Channel.by_name(params[:channel]).sendmsg(params[:message])
+    channel = Channel.by_id(params[:channel])
+    result = channel.sendmsg(params[:message])
     if result["ok"]
-      flash[:notice] = "Successfully sent message to #{params[:channel]}"
+      flash[:notice] = "Successfully sent message to #{channel.name}"
     else
-      flash[:notice] = "Failed to send message to #{params[:channel]}: #{result["error"]}"
+      flash[:notice] = "Failed to send message to #{channel.name}: #{result["error"]}"
     end
     redirect_to homepages_index_path
   end
 
   def new
-    @channel_name = params[:channel]
+    @channel = Channel.by_id(params[:channel])
   end
 end
