@@ -4,7 +4,7 @@
 <section class="row">
   <% @channels.each do |channel| %>
     <p class="large-4 small-12 columns">
-      <%= link_to channel.name, channels_new_path(channel.id) %>
+      <%= link_to channel.name, channel_path(channel.id) %>
     </p>
   <% end %>
 </section>

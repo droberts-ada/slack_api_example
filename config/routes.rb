@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
-  get 'channels/index'
+  root 'channels#index'
+  resources 'channels', only: [:index, :show]
 
-  get 'channels/:channel', to: "channels#new", as: "channels_new"
-
-  post 'channels/create'
+  post 'channels/:id', to: "channels#sendmsg"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
