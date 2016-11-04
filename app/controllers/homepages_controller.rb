@@ -1,6 +1,6 @@
 class HomepagesController < ApplicationController
   def index
-    @data = Channel.all.values.sort_by{ |c| c.name }
+    @channels = Channel.all.values.sort_by{ |c| c.name }
   end
 
   def create
