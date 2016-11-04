@@ -59,6 +59,33 @@ class ChannelTest < ActiveSupport::TestCase
     assert_equal c.members, options[:members]
   end
 
+  test "sendmsg on a real channel succeeds" do
+    VCR.use_cassette("channels") do
+      channel = Channel.by_name("test-api-brackets")
+      assert_kind_of Channel, channel
+
+      message = "test message"
+      response = channel.sendmsg(message)
+
+      assert_kind_of HTTParty::Response, response
+      assert response["ok"]
+      assert_equal response["message"]["text"], message
+    end
+  end
+
+  test "sendmsg on a bogus channel fails" do
+    VCR.use_cassette("channels") do
+      channel = Channel.new("this-channel-does-not-exist", "test id")
+      assert_kind_of Channel, channel
+
+      response = channel.sendmsg("test message")
+      
+      assert_kind_of HTTParty::Response, response
+      assert_not response["ok"]
+      assert_not_nil response["error"]
+    end
+  end
+
   #
   # SELF METHODS
   #
@@ -119,6 +146,8 @@ class ChannelTest < ActiveSupport::TestCase
       assert_equal channel.id, id
     end
   end
+
+  # Assumption: Slack will never return duplicate IDs.
 
   #
   # MEMOIZATION

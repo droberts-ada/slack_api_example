@@ -19,6 +19,7 @@ class Channel
   # Send a message to this slack channel
   # Returns the data from the Slack server's response
   def sendmsg(msg)
+    SlackApiWrapper.sendmsg(@name, msg)
   end
 
   # Create a class-level instance variable.
