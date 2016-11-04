@@ -53,6 +53,6 @@ class Channel
   # Return either the first (probably only) channel matching
   # the given ID, or nil.
   def self.by_id(id)
-    # self.all[id]
+    self.all[id]
   end
 end

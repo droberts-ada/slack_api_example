@@ -104,6 +104,21 @@ class ChannelTest < ActiveSupport::TestCase
     end
   end
 
+  test "Channel.by_id should return nil if no match" do
+    VCR.use_cassette("channels") do
+      channel = Channel.by_id("this-id-does-not-exist")
+      assert_nil channel
+    end
+  end
+
+  test "Channel.by_id should return the only match" do
+    VCR.use_cassette("channels") do
+      id = "C14UN1PV2"
+      channel = Channel.by_id(id)
+      assert_kind_of Channel, channel
+      assert_equal channel.id, id
+    end
+  end
 
   #
   # MEMOIZATION
