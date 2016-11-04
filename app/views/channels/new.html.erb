@@ -1,7 +1,7 @@
 
 <h1>Send Message to <%= @channel.name %> </h1>
 
-<%= form_tag homepages_create_path, method: "post" do %>
+<%= form_tag channels_create_path, method: "post" do %>
   <%= label_tag :message, "Message" %>
   <%= text_field_tag :message %>
   <%= hidden_field_tag :channel, @channel.id %>

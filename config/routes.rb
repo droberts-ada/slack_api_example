@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  get 'homepages/index'
+  get 'channels/index'
 
-  get 'homepages/:channel', to: "homepages#new", as: "homepages_new"
+  get 'channels/:channel', to: "channels#new", as: "channels_new"
 
-  post 'homepages/create'
+  post 'channels/create'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

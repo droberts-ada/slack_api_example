@@ -1,4 +1,4 @@
-class HomepagesController < ApplicationController
+class ChannelsController < ApplicationController
   def index
     @channels = Channel.all.values.sort_by{ |c| c.name }
   end
@@ -11,7 +11,7 @@ class HomepagesController < ApplicationController
     else
       flash[:notice] = "Failed to send message to #{channel.name}: #{result["error"]}"
     end
-    redirect_to homepages_index_path
+    redirect_to channels_index_path
   end
 
   def new
